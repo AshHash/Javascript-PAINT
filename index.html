@@ -22,7 +22,7 @@
     </table>
 
     <script>
-        // does what it says
+        // Creates cell
         const makeCell = () => {
             const cell = document.createElement("td");
             cell.style.backgroundColor = '#FFFFFF';
@@ -35,7 +35,7 @@
         // shortening
         const cells = () => document.querySelectorAll("td");
 
-        // handlers
+        // Handlers
         const handlers = {
             ar: () => {
                 const row = table.insertRow();
@@ -63,16 +63,16 @@
                 (event.target.style.backgroundColor = list[select.value])
         };
 
-        // get shit
+        // Helpers
         const controls = document.getElementById("controls");
         const table = document.getElementById("paint");
         const select = document.createElement("select");
         let active = false;
 
-        // fill first cell
+        // Creates initial cell
         table.rows[0].append(makeCell());
 
-        // fill buttons
+        // Dynamically generate buttons
         const buttons = {
             ar: 'Add Row',
             ac: 'Add Col',
@@ -88,7 +88,7 @@
             controls.lastChild.onclick = handlers[button];
         });
 
-        // fill colors
+        // Fill colors
         const list = {
             White: '#FFFFFF',
             Green: '#00FF00',
