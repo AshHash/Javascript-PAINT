@@ -1,0 +1,109 @@
+<html>
+
+<head>
+    <title>Assignment 3</title>
+    <style>
+        td {
+            border: solid 1px black;
+            margin: 5px;
+            padding: 15px;
+        }
+        
+        button {
+            margin: 0px 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="controls"></div>
+    <table id="paint">
+        <tr></tr>
+    </table>
+
+    <script>
+        // does what it says
+        const makeCell = () => {
+            const cell = document.createElement("td");
+            cell.style.backgroundColor = '#FFFFFF';
+            cell.onmousedown = handlers.activate;
+            cell.onmouseup = () => active = false;
+            cell.onmouseover = handlers.color;
+            return cell;
+        }
+
+        // shortening
+        const cells = () => document.querySelectorAll("td");
+
+        // handlers
+        const handlers = {
+            ar: () => {
+                const row = table.insertRow();
+                while (table.rows[0].cells.length != row.cells.length)
+                    row.append(makeCell());
+            },
+            ac: () => document.querySelectorAll("tr").forEach(row =>
+                row.append(makeCell())),
+            rr: () => table.deleteRow(table.rows.length - 1),
+            rc: () => document.querySelectorAll("tr").forEach(row =>
+                row.removeChild(row.lastChild)),
+            all: () => cells().forEach(cell =>
+                cell.style.backgroundColor = list[select.value]),
+            un: () => cells().forEach(cell =>
+                (cell.style.backgroundColor == "rgb(255, 255, 255)") &&
+                (cell.style.backgroundColor = list[select.value])
+            ),
+            clear: () => cells().forEach(cell =>
+                cell.style.backgroundColor = '#FFFFFF'),
+            activate: event => {
+                active = true;
+                handlers.color(event);
+            },
+            color: event => active &&
+                (event.target.style.backgroundColor = list[select.value])
+        };
+
+        // get shit
+        const controls = document.getElementById("controls");
+        const table = document.getElementById("paint");
+        const select = document.createElement("select");
+        let active = false;
+
+        // fill first cell
+        table.rows[0].append(makeCell());
+
+        // fill buttons
+        const buttons = {
+            ar: 'Add Row',
+            ac: 'Add Col',
+            rr: 'Del Row',
+            rc: 'Del Col',
+            all: 'Fill All',
+            un: 'Fill White',
+            clear: 'Clear All'
+        };
+        Object.keys(buttons).forEach(button => {
+            controls.append(document.createElement("button"));
+            controls.lastChild.innerHTML = buttons[button];
+            controls.lastChild.onclick = handlers[button];
+        });
+
+        // fill colors
+        const list = {
+            White: '#FFFFFF',
+            Green: '#00FF00',
+            Yellow: '#FFFF00',
+            Red: '#FF0000',
+            Blue: '#0000FF'
+        };
+        select.id = 'colors';
+        controls.append(select);
+        Object.keys(list).forEach(color => {
+            select.append(document.createElement("option"));
+            select.lastChild.text = color;
+        });
+        select.value = select.firstChild.text;
+    </script>
+</body>
+
+</html>
